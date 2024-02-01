@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var userName = Context.Session.GetString("UserName");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="~/css/nav.css">
+    <link rel="stylesheet" href="~/css/Mhome.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Mhome.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Proje4.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="topbar">
+        <div class="logo">M2M</div>
+        <form action="@Url.Action("Search", "Home")" method="get" class="search-bar">
+            <input type="text" name="query" placeholder="Search..." />
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+    <div id="container">
+        <div id="sidebar">
+            <a asp-controller="Profiles" asp-route-id="@ViewBag.UserId" asp-action="Profile" class="menu-item">
+                <img src="~/prof.jpg" width="25px" height="25px"> @userName
+            </a>
+            <a asp-controller="Home" asp-action="ManagerHome" class="menu-item">Home</a>
+            <a asp-controller="Users" asp-action="MyTeam" class="menu-item">My Team</a>
+            <a asp-controller="ManagerTasks" asp-action="Index" class="menu-item">Tasks</a>
+            <a asp-controller="Messages" asp-action="Index" class="menu-item">Messages</a>
+            <a asp-controller="Login" asp-action="Login" class="menu-item" style="color: red;">Logout</a>
+        </div>
+        <div id="main-content">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

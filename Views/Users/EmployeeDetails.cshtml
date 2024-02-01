@@ -1,0 +1,43 @@
+﻿@model Proje4.Models.EmployeeDetailsViewModel
+
+@{
+    Layout = "managerLayout";
+}
+<h2>Employee Details: @Model.Name</h2>
+
+<div class="task-list">
+    @foreach (var task in Model.Tasks)
+    {
+        <div class="task-item" onclick="location.href='@Url.Action("Edit", "ManagerTasks", new { id = task.Id })'">
+            <h3>@task.Name</h3>
+            <p>Description: @task.Description</p>
+            <p>Due Date: @task.DueDate.ToShortDateString()</p>
+            <p>Status: @(task.Completed ? "Completed" : "Not Completed")</p>
+        </div>
+    }
+</div>
+
+<style>
+    .task-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .task-item {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+        .task-item:hover {
+            background-color: #e9e9e9;
+        }
+
+        .task-item h3 {
+            margin-top: 0;
+        }
+</style>

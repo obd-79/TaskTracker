@@ -1,0 +1,85 @@
+﻿@model Proje4.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "adminLayout";
+}
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Password" id="currentPassword" />
+
+            <div class="form-group">
+                <label for="newPassword" class="control-label">New Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="NewPassword" />
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword" class="control-label">Confirm New Password:</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="ConfirmNewPassword" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <div>
+                    <label><input asp-for="Type" type="radio" value="employee" /> Employee</label>
+                    <label><input asp-for="Type" type="radio" value="manager" /> Manager</label>
+                </div>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectId" class="control-label">Project</label>
+                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>
+                <span asp-validation-for="ProjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" onclick=" return validatePassword()"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function validatePassword() {
+            var currentPassword = document.getElementById('currentPassword').value;
+            var newPassword = document.getElementById('newPassword').value;
+            var confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match.');
+                return false;
+            }
+
+            if (newPassword === '' && confirmNewPassword === '') {
+                
+                document.getElementById('currentPassword').value = currentPassword;
+            } else {
+                
+                document.getElementById('currentPassword').value = newPassword;
+            }
+
+            return true;
+        }
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@model Proje4.Models.Task
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "employeeLayout";
+}
+
+<h2>@Model.Name</h2>
+
+<div class="task-details">
+    <div><strong>Description:</strong> @Model.Description</div>
+    <div><strong>Due Date:</strong> @Model.DueDate.ToString("yyyy-MM-dd")</div>
+    <form asp-action="ToggleTaskStatus" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="task-status">
+            <strong>Status:</strong>
+            <button type="submit" class="status-button">
+                @(Model.Completed ? "Completed" : "In Progress")
+            </button>
+        </div>
+
+    </form>
+    <div><strong>Assigned To:</strong> @Model.User?.Name</div>
+</div>
+
+<a href="@Url.Action("EmployeeHome", "Home")" class="btn btn-primary">Back to Tasks</a>
+
+
+<style>
+    .task-details {
+        margin: 20px 0;
+    }
+
+        .task-details div {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+    .status-button {
+        background: none;
+        border: none;
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    
+</style>

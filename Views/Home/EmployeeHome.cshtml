@@ -1,0 +1,93 @@
+﻿@model CustomHomeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "employeeLayout";
+}
+<h2>Your Tasks</h2>
+<div>
+    <label>
+        <input type="radio" name="taskFilter" value="all" checked onclick="filterTasks()">
+        Show All Tasks
+    </label>
+    <label>
+        <input type="radio" name="taskFilter" value="ongoing" onclick="filterTasks()">
+        Show Only Ongoing Tasks
+    </label>
+</div>
+
+<div class="task-container" id="tasksContainer">
+    @foreach (var task in Model.Tasks)
+    {
+        <a href="@Url.Action("ViewTask", "Tasks", new { id = task.Id })" class="task-card" data-due-date="@task.DueDate.ToString("M/d/yyyy")" data-completed="@task.Completed">
+            <div class="task-title">@task.Name</div>
+            <div class="task-description">@task.Description</div>
+            <div class="task-due-date">@task.DueDate.ToShortDateString()</div>
+            <div class="task-status"> @((task.Completed) ? "Completed" : "In Progress")</div>
+        </a>
+    }
+</div>
+
+
+<style>
+    .task-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .task-card {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .task-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .task-description {
+        margin-bottom: 5px;
+    }
+
+    .task-due-date, .task-status {
+        font-style: italic;
+    }
+
+    .task-status {
+        color: green; /* or red, based on the status */
+    }
+
+    .task-card:hover {
+        background-color: #e9e9e9;
+    }
+</style>
+@section Scripts {
+    <script src="~/js/moment.js"></script>
+    <script>
+        function filterTasks() {
+            const tasks = document.querySelectorAll('.task-card');
+            const filterValue = document.querySelector('input[name="taskFilter"]:checked').value;
+            const currentDate = moment();
+
+            tasks.forEach(task => {
+                const dueDateStr = task.getAttribute('data-due-date');
+                const completed = task.getAttribute('data-completed') === 'True';
+                const dueDate = moment(dueDateStr, 'M/D/YYYY');
+                const isOngoing = dueDate.isSameOrAfter(currentDate);
+               
+                if (filterValue === 'ongoing' && !isOngoing) {
+                    task.style.display = 'none';
+                } else {
+                    task.style.display = 'block';
+                }
+            });
+        }
+    </script>
+}

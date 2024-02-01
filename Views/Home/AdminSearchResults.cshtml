@@ -1,0 +1,114 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = ViewBag.Layout as string;
+}
+@model Proje4.Models.CustomHomeViewModel;
+<h1> Search Results</h1>
+<h3>Results for "@Model.searchQuery"</h3>
+
+@if (Model.Users.Any())
+{
+    <h2>User Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    ProjectId
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        ***********
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectId)
+                    </td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Users"  asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Users" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.Projects.Any())
+{
+    <h2>Project Results</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    @*  @Html.DisplayNameFor(model => model.User) *@ Manager
+                </th>
+                <th>
+                    Due Date
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Projects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DueDate)
+                    </td>
+                    <td>
+                        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Projects" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

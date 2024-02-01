@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Proje4.Models.TeamMemberViewModel>
+@{
+    Layout = "managerLayout";
+}
+<h2>My Team</h2>
+
+<div class="team-container">
+    @foreach (var member in Model)
+    {
+        <div class="team-member" onclick="location.href='@Url.Action("EmployeeDetails", "Users", new { id = member.Id })'">
+            <h3>@member.Name</h3>
+            <p>Tasks Completed: @member.CompletedTasks/@member.TotalTasks</p>
+        </div>
+    }
+</div>
+
+<style>
+    .team-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .team-member {
+        background-color: #f0f0f0;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+        .team-member:hover {
+            background-color: #e0e0e0;
+        }
+
+        .team-member h3 {
+            margin: 0;
+        }
+
+        .team-member p {
+            margin: 5px 0 0;
+        }
+</style>

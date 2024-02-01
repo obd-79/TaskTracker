@@ -1,0 +1,158 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = ViewBag.Layout as string;
+}
+@model Proje4.Models.CustomHomeViewModel;
+<h1> Search Results</h1>
+<h3>Results for "@Model.searchQuery"</h3>
+
+@if (Model.Users.Any())
+{
+    <h2>Employee Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Total Tasks
+                </th>
+                <th>
+                    Total Tasks Done
+                </th>
+               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalNumberOfTasks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDoneTasks)
+                    </td>
+                    <td>
+                        <a asp-controller="Users" asp-action="ManagerDetails" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.Messages.Any())
+{
+    <h2>Message Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Text
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                </th>
+                <th>                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Messages)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                    </td>
+
+                    <td>
+                        <a asp-controller="Messages" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model.Tasks.Any())
+{
+    <h2>Task Results</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Assigned To:
+                </th>
+                <th>
+                    Due date:
+                </th>
+                <th>
+                    Completed:
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Tasks)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Completed)
+                    </td>
+                    <td>
+                        <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Tasks" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+

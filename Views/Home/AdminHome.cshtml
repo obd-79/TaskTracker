@@ -1,0 +1,58 @@
+﻿@model CustomHomeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "adminLayout";
+}
+<h1>Home</h1>
+<a asp-controller="Users" asp-action="Index" style="text-decoration : none"><h2>Users</h2></a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Users.First().Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Users.First().Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Users.First().Type)</th>
+            <th>@* @Html.DisplayNameFor(model => model.Users.First().ProjectId) *@Project</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users)
+        {
+
+
+            <tr onclick="location.href='@Url.ActionLink("Details", "Users", new { id = item.Id })'" style="cursor: pointer;">
+                
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                <td>@Html.DisplayFor(modelItem => item.Project.Name)</td>
+            </tr>
+           
+            
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Projects" asp-action="Index" style="text-decoration : none"><h2>Projects</h2></a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Projects.First().Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Projects.First().Description)</th>
+            <th>@*  @Html.DisplayNameFor(model => model.Projects.First().UserId)*@ Manager</th>
+            <th>@Html.DisplayNameFor(model => model.Projects.First().DueDate)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Projects)
+        {
+            <tr onclick="location.href='@Url.ActionLink("Details", "Projects", new { id = item.Id })'" style="cursor: pointer;">
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.User.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.DueDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>

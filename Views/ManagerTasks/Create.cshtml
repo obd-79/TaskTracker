@@ -1,0 +1,44 @@
+﻿@model Proje4.Models.CreateTaskViewModel
+
+@{
+    ViewData["Title"] = "Create Task";
+    Layout = "managerLayout";
+}
+
+<h2>Create Task</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="DueDate"></label>
+        <input asp-for="DueDate" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="AssignedToUserId"></label>
+        <select asp-for="AssignedToUserId" asp-items="Model.Employees" class="form-control">
+            <option value="">Select an employee</option>
+        </select>
+        <span asp-validation-for="AssignedToUserId" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-success">Create</button>
+    
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

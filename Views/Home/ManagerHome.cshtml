@@ -1,0 +1,52 @@
+﻿@model Proje4.Models.ManagerHomeViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "managerLayout";
+}
+<main class="main-content">
+    <div class="current-project">
+        <h2>Current Project: @Model.CurrentProject.Name</h2>
+        <div class="task-completed-container">
+            <div class="task-completed-box">
+                <label for="task-completed">Task Completed:</label>
+                <progress id="task-completed" value="@Model.CurrentProject.Tasks.Count(t => t.Completed)" max="@Model.CurrentProject.Tasks.Count()"></progress>
+                <span>@Model.CurrentProject.Tasks.Count(t => t.Completed)/@Model.CurrentProject.Tasks.Count()</span>
+            </div>
+        </div>
+        <div class="tasks-left-container">
+            <div class="tasks-left-box">
+                <label>Tasks left:</label>
+                <div class="tasks">
+                    @foreach (var task in Model.CurrentProject.Tasks.Where(t => !t.Completed).Take(5))
+                    {
+                        <a href="@Url.Action("Edit", "ManagerTasks", new { id = task.Id })" class="task-button">
+                            @task.Name
+                        </a>
+                    }
+                </div>
+                <a href="@Url.Action("Index", "ManagerTasks")" style="text-decoration:none; color: black;">
+                    <button class="view-all">View All</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="team-progress">
+        <h2 class="team-progress-title">Team Progress</h2>
+        <div class="employee-progress">
+            @foreach (var employee in Model.Employees.Take(4))
+            {
+                <div class="employee-box">
+                    <span class="employee-name">@employee.Name</span>
+                    <span class="employee-role">@employee.Type</span>
+                    <progress value="@employee.TotalDoneTasks" max="@employee.TotalNumberOfTasks"></progress>
+                    <span class="tasks-done">Tasks Completed: @employee.TotalDoneTasks/@employee.TotalNumberOfTasks</span>
+                </div>
+            }
+        </div>
+        <a href="@Url.Action("MyTeam", "Users")" style="text-decoration:none; color: black;">
+            <button class="view-all-employees">View All</button>
+        </a>
+    </div>
+</main>

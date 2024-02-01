@@ -1,0 +1,77 @@
+﻿@model Proje4.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "adminLayout";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword" class="control-label">Confirm Password:</label>
+                <input for="confirmPassword" class="form-control" type="password" id="confirmPassword" />
+                <span id="confirmPasswordError" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <div>
+                 <label><input type="radio" name="Type" value="employee" @(ViewBag.UserType == "employee" ? "checked" : "") /> Employee</label>
+                 <label><input type="radio" name="Type" value="manager" @(ViewBag.UserType == "manager" ? "checked" : "") /> Manager</label>
+                </div>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectId" class="control-label">Project</label>
+                <select asp-for="ProjectId" class="form-control" asp-items="ViewBag.ProjectId"></select>
+                <span asp-validation-for="ProjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" onclick="return validatePassword()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function validatePassword() {
+            var newPassword = document.getElementById("password").value;
+            var confirmNewPassword = document.getElementById("confirmPassword").value;
+            var confirmPasswordError = document.getElementById("confirmPasswordError");
+
+            if (newPassword !== confirmNewPassword) {
+                confirmPasswordError.textContent = "The passwords do not match.";
+                return false;
+            } else {
+                confirmPasswordError.textContent = "";
+                return true;
+            }
+        }
+    </script>
+}

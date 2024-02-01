@@ -1,0 +1,159 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = ViewBag.Layout as string;
+    var type = ViewBag.userType;
+}
+@model Proje4.Models.UserProfileViewModel
+@*
+<h2>My Profile</h2>
+
+<form asp-controller="Profiles" asp-action="Update" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name" class="form-control" disabled />
+        <span asp-validation-for="Name" class="text-danger" ></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="Password" id="currentPassword" />
+
+    <div class="form-group">
+        <label for="newPassword" class="control-label">New Password:</label>
+        <input type="password" class="form-control" id="newPassword" name="NewPassword" />
+    </div>
+    <div class="form-group">
+        <label for="confirmNewPassword" class="control-label">Confirm New Password:</label>
+        <input type="password" class="form-control" id="confirmNewPassword" name="ConfirmNewPassword" />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary" onclick="return validate()">Save</button>
+    <a asp-controller="Home" asp-action="AdminHome" class="cancel-button">Cancel</a>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        function validatePassword() {
+            var currentPassword = document.getElementById('currentPassword').value;
+            var newPassword = document.getElementById('newPassword').value;
+            var confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match.');
+                return false;
+            }
+
+            if (newPassword === '' && confirmNewPassword === '') {
+
+                document.getElementById('currentPassword').value = currentPassword;
+            } else {
+
+                document.getElementById('currentPassword').value = newPassword;
+            }
+
+            return true;
+        }
+    </script>
+}
+
+*@
+
+
+<h1>My Profile</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Profile">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Password" id="currentPassword" />
+
+            <div class="form-group">
+                <label for="newPassword" class="control-label">New Password:</label>
+                <input type="password" class="form-control" id="newPassword" name="NewPassword" />
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword" class="control-label">Confirm New Password:</label>
+                <input type="password" class="form-control" id="confirmNewPassword" name="ConfirmNewPassword" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" onclick=" return validatePassword()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Home" asp-action="@GetActionForLayout()">Back</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function validatePassword() {
+            var currentPassword = document.getElementById('currentPassword').value;
+            var newPassword = document.getElementById('newPassword').value;
+            var confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match.');
+                return false;
+            }
+
+            if (newPassword === '' && confirmNewPassword === '') {
+
+                document.getElementById('currentPassword').value = currentPassword;
+            } else {
+
+                document.getElementById('currentPassword').value = newPassword;
+            }
+
+            return true;
+        }
+    </script>
+}
+@functions {
+    private string GetActionForLayout()
+    {
+        var layout = ViewBag.Layout as string;
+        switch (layout)
+        {
+            case "adminLayout":
+                return "AdminHome";
+            case "managerLayout":
+                return "ManagerHome";
+            case "employeeLayout":
+                return "EmployeeHome";
+            default:
+                return "Index";
+        }
+    }
+}

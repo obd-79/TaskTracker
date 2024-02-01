@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Proje4.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "adminLayout";
+}
+
+<h1>All users</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+    <h3>Show: </h3>
+    <input type="checkbox" id="employeeCheckbox" value="Employee" checked /> Employees
+    <input type="checkbox" id="managerCheckbox" value="Manager" checked /> Managers
+
+
+
+<table class="table" id="usersTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr class="user-row" data-user-type="@item.Type">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                    @*@Html.DisplayFor(modelItem => item.Password) *@ ************
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+        
+            function filterUsers() {
+                var showEmployee = document.getElementById('employeeCheckbox').checked;
+                var showManager = document.getElementById('managerCheckbox').checked;
+
+                document.querySelectorAll('.user-row').forEach(function (row) {
+                    var userType = row.getAttribute('data-user-type');
+                    if ((userType === 'employee' && showEmployee) || (userType === 'manager' && showManager)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            document.getElementById('employeeCheckbox').addEventListener('change', filterUsers);
+            document.getElementById('managerCheckbox').addEventListener('change', filterUsers);
+
+            
+            filterUsers();
+    </script>
+}

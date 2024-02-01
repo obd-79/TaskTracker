@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Proje4.Models.Task>
+
+@{
+    ViewData["Title"] = "Task Management";
+    Layout = "managerLayout";
+}
+<div class="task-page-container">
+    <a href="@Url.Action("Create", "ManagerTasks")" class="btn btn-primary create-task-btn">Create New Task</a>
+
+<h2>Tasks Management</h2>
+    <div>
+        <label>
+            <input type="radio" name="taskFilter" value="all" checked onclick="filterTasks()">
+            Show All Tasks
+        </label>
+        <label>
+            <input type="radio" name="taskFilter" value="ongoing" onclick="filterTasks()">
+            Show Only Ongoing Tasks
+        </label>
+    </div>
+
+<div class="task-content">
+    @foreach (var task in Model)
+    {
+            <div class="task-card" data-due-date="@task.DueDate.ToString("yyyy-MM-dd")" data-completed="@task.Completed">
+        <a href="@Url.Action("Edit", "ManagerTasks", new { id = task.Id })"   style="text-decoration:none; color: black;">
+            
+                <div class="task-header">
+                    <h3>@task.Name</h3>
+                </div>
+                <div class="task-details">
+                    <div class="detail">
+                        <strong>Due Date:</strong> <span>@task.DueDate.ToString("yyyy-MM-dd")</span>
+                    </div>
+                    
+                    <div class="detail">
+                        <strong>Status:</strong> <span>@(task.Completed ? "Completed" : "In Progress")</span>
+                    </div>
+                </div>
+            
+        </a>
+        </div>
+    }
+</div>
+
+
+
+
+    <style>
+        
+        .task-page-container {
+            position: relative;
+        }
+
+        .create-task-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 20px;
+            /* Additional styling as needed */
+        }
+        .task-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: calc((100% / 3) - 40px);
+            margin: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .task-header h3 {
+            margin-bottom: 20px;
+        }
+
+        .task-details .detail {
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            /* Style as needed */
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+    @section Scripts {
+        <script src="~/js/moment.js"></script>
+        <script>
+            function filterTasks() {
+                const tasks = document.querySelectorAll('.task-card');
+                const filterValue = document.querySelector('input[name="taskFilter"]:checked').value;
+                const currentDate = moment().startOf('day');
+
+                tasks.forEach(task => {
+                    const dueDateStr = task.getAttribute('data-due-date');
+                    const completed = task.getAttribute('data-completed') === 'True';
+                    const dueDate = moment(dueDateStr, 'YYYY-MM-DD');
+                    const isOngoing = dueDate.isSameOrAfter(currentDate);
+                    console.log(`Task: ${dueDateStr}, Is Ongoing: ${isOngoing}, Completed: ${completed}`);
+
+                    if (filterValue === 'ongoing' && !isOngoing) {
+                        task.style.display = 'none';
+                    } else {
+                        task.style.display = 'block';
+                    }
+                });
+            }
+        </script>
+    }
