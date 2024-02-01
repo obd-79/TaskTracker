@@ -22,10 +22,13 @@ TaskTracker is a dynamic task management system designed for optimizing team col
 2. **Open Solution in Visual Studio**
 
 3. **Restore NuGet Packages**
+   ```
    dotnet restore
+   ```
+   
 
 
-4. **Configure the Database**
+5. **Configure the Database**
 - Update the connection string in `appsettings.json`.
 - Apply migrations to set up the database:
   ```
